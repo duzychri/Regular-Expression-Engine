@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<RootNamespace>Regular_Expression_Engine</RootNamespace>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+		<Authors>Christoph Duzy</Authors>
+		<Product>Regular-Expression-Engine</Product>
+		<Description>A simple regular expression engine written in C#.</Description>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/duzychri/Regular-Expression-Engine</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<VersionPrefix>1.0.0</VersionPrefix>
+		<PackageId>Regular-Expression-Engine</PackageId>
+	</PropertyGroup>
+
+</Project>
