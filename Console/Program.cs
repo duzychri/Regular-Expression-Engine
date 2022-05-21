@@ -22,12 +22,19 @@ internal class Program
                 Regex = "a(b|c)*e",
                 MatchingStrings = new string[] { "234234abcbcbcbce345", "abce", "ae", "abe", "ace" },
                 NonMatchingStrings = new string[] { "a", "bbbbb",  "abc", "bce" },
+            },
+            new()
+            {
+                Regex = "A(B|C)*e",
+                IsCaseSensitive = false,
+                MatchingStrings = new string[] { "234234abcbcbcbce345", "abce", "ae", "abe", "ace" },
+                NonMatchingStrings = new string[] { "a", "bbbbb",  "abc", "bce" },
             }
         };
 
         foreach (TestParameters value in tests)
         {
-            RegexEngine engine = new RegexEngine(value.Regex);
+            RegexEngine engine = new RegexEngine(value.Regex, isCaseSensitive: value.IsCaseSensitive);
             foreach (string matchingString in value.MatchingStrings)
             {
                 RegexMatch[] matches = engine.Match(matchingString);

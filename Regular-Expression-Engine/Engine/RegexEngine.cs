@@ -13,18 +13,20 @@ namespace Regular_Expression_Engine
     /// - Zero or more '*'<br/>
     /// - One or more '+'<br/>
     /// - Parenthesis '(', ')'<br/>
-    /// Operators can be escaped using /.
+    /// Operators can be escaped using \.
     /// </remarks>
     public class RegexEngine
     {
+        private readonly bool isCaseSensitive;
         private readonly StateMachine stateMachine;
 
         /// <summary>
         /// Creates a new <see cref="RegexEngine"/>.
         /// </summary>
         /// <param name="expression">The expression to create a state machine for.</param>
+        /// <param name="isCaseSensitive">If <c>false</c> then the matching will ignore the case of the character.</param>
         /// <exception cref="ArgumentNullException">The <paramref name="expression"/> is null or empty.</exception>
-        public RegexEngine(string expression)
+        public RegexEngine(string expression, bool isCaseSensitive = true)
         {
             if (string.IsNullOrWhiteSpace(expression)) { throw new ArgumentNullException(nameof(expression), $"{nameof(expression)} is null or empty."); }
 
@@ -36,6 +38,8 @@ namespace Regular_Expression_Engine
             tokens = Tokenizer.ConvertToPostfixNotation(tokens);
             // Build state machine.
             stateMachine = StateMachine.Build(tokens);
+            // Set options.
+            this.isCaseSensitive = isCaseSensitive;
         }
 
         /// <summary>
@@ -52,7 +56,7 @@ namespace Regular_Expression_Engine
 
             for (int start = 0; start < input.Length; start++)
             {
-                (bool success, int end) = stateMachine.Evaluate(input, start);
+                (bool success, int end) = stateMachine.Evaluate(input, start, isCaseSensitive);
                 if (success)
                 {
                     RegexMatch match = new RegexMatch(start, end);

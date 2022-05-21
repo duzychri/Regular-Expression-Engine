@@ -115,33 +115,43 @@ namespace Regular_Expression_Engine
 
         #endregion Constructor & Builder
 
-        internal (bool success, int endIndex) Evaluate(string input, int startIndex)
+        internal (bool success, int endIndex) Evaluate(string input, int startIndex, bool isCaseSensitive)
         {
-            return Evaluate(Start, input, startIndex);
-        }
+            return Evaluate(Start, startIndex);
 
-        private (bool success, int endIndex) Evaluate(State state, string input, int startIndex)
-        {
-            if (state.IsEndState)
-            { return (true, startIndex); }
-
-            foreach (Transition connection in state.Connections)
+            (bool success, int endIndex) Evaluate(State state, int index)
             {
-                if (startIndex < input.Length && connection.Character == input[startIndex])
+                if (state.IsEndState)
+                { return (true, index); }
+
+                foreach (Transition connection in state.Connections)
                 {
-                    (bool success, int endIndex) = Evaluate(connection.State, input, startIndex + 1);
-                    if (success)
-                    { return (true, endIndex); }
+                    if (index < input.Length && CompareCharacters(connection.Character, input[index]))
+                    {
+                        (bool success, int endIndex) = Evaluate(connection.State, index + 1);
+                        if (success)
+                        { return (true, endIndex); }
+                    }
+                    else if (connection.IsEmpty)
+                    {
+                        (bool success, int endIndex) = Evaluate(connection.State, index);
+                        if (success)
+                        { return (true, endIndex); }
+                    }
                 }
-                else if (connection.IsEmpty)
-                {
-                    (bool success, int endIndex) = Evaluate(connection.State, input, startIndex);
-                    if (success)
-                    { return (true, endIndex); }
-                }
+
+                return (false, index);
             }
 
-            return (false, startIndex);
+            bool CompareCharacters(char a, char b)
+            {
+                if (isCaseSensitive == false)
+                {
+                    a = char.ToLowerInvariant(a);
+                    b = char.ToLowerInvariant(b);
+                }
+                return a == b;
+            }
         }
     }
 }

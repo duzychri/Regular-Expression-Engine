@@ -5,4 +5,5 @@ internal class TestParameters
     public string Regex { get; set; }
     public string[] MatchingStrings { get; set; }
     public string[] NonMatchingStrings { get; set; }
+    public bool IsCaseSensitive { get; set; } = true;
 }
