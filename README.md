@@ -5,8 +5,6 @@ The engine tokenizes an input regular expression string, then converts it into p
 
 ## Supported operators
 
-The engine supports operators.
-
 | Operation | Operator | Description |
 | ----------- | ----------- | ----------- |
 | Alternation | \| | Matches the character left or right of the \|. |
@@ -17,8 +15,6 @@ The engine supports operators.
 | Escape | \ | scapes the operator before the / (including itself). |
 
 ## How to use
-
-Write code.
 
 ```csharp
 string expression = "a(bc)+e";

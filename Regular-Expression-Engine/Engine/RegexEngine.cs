@@ -57,7 +57,7 @@ namespace Regular_Expression_Engine
             for (int start = 0; start < input.Length; start++)
             {
                 (bool success, int end) = stateMachine.Evaluate(input, start, isCaseSensitive);
-                if (success)
+                if (success && end - start > 0)
                 {
                     RegexMatch match = new RegexMatch(start, end);
                     matches.Add(match);

@@ -32,6 +32,9 @@ internal class Program
             }
         };
 
+        //RegexEngine engine2 = new RegexEngine("a*", isCaseSensitive: false);
+        //var test5234 = engine2.Match(" asd asd  asd ");
+
         foreach (TestParameters value in tests)
         {
             RegexEngine engine = new RegexEngine(value.Regex, isCaseSensitive: value.IsCaseSensitive);
