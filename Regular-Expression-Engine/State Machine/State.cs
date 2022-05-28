@@ -40,6 +40,8 @@ namespace Regular_Expression_Engine
             Connections.Add(transition);
         }
 
+        #region Debugging
+
         internal class StateDebugView
         {
             [DebuggerBrowsable(DebuggerBrowsableState.RootHidden)]
@@ -52,5 +54,7 @@ namespace Regular_Expression_Engine
                 this.state = state;
             }
         }
+
+        #endregion Debugging
     }
 }

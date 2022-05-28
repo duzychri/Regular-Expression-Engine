@@ -18,13 +18,14 @@ namespace Regular_Expression_Engine
         public static StateMachine Build(IEnumerable<Token> tokens)
         {
             Stack<Fragment> fragments = new Stack<Fragment>();
+            HashSet<State> states = new HashSet<State>();
             foreach (Token token in tokens)
             {
                 // Character
                 if (token.Type == TokenType.Character)
                 {
-                    State start = new State($"Character Start ({token.Character})");
-                    State end = new State($"Character End ({token.Character})");
+                    State start = CreateState($"Character Start ({token.Character})");
+                    State end = CreateState($"Character End ({token.Character})");
                     start.AddConnection(end, token.Character);
 
                     Fragment fragment = new Fragment(start, end);
@@ -33,8 +34,8 @@ namespace Regular_Expression_Engine
                 // Wildcard character
                 else if (token.Type == TokenType.WildcardCharacter)
                 {
-                    State start = new State($"Wildcard character Start ({token.Character})");
-                    State end = new State($"Wildcard character End ({token.Character})");
+                    State start = CreateState($"Wildcard character Start ({token.Character})");
+                    State end = CreateState($"Wildcard character End ({token.Character})");
                     start.AddAnyConnection(end);
 
                     Fragment fragment = new Fragment(start, end);
@@ -43,8 +44,8 @@ namespace Regular_Expression_Engine
                 // Alternation
                 else if (token.IsOperator && token.Character == '|')
                 {
-                    State start = new State("| Start");
-                    State end = new State("| End");
+                    State start = CreateState("| Start");
+                    State end = CreateState("| End");
 
                     Fragment b = fragments.Pop();
                     Fragment a = fragments.Pop();
@@ -74,8 +75,8 @@ namespace Regular_Expression_Engine
                 {
                     Fragment a = fragments.Pop();
 
-                    State start = new State("? Start");
-                    State end = new State("? End");
+                    State start = CreateState("? Start");
+                    State end = CreateState("? End");
 
                     start.AddEmptyConnection(a.Start);
                     a.End.AddEmptyConnection(end);
@@ -90,8 +91,8 @@ namespace Regular_Expression_Engine
                     Fragment a = fragments.Pop();
                     a.End.AddEmptyConnection(a.Start);
 
-                    State start = new State("* Start");
-                    State end = new State("* End");
+                    State start = CreateState("* Start");
+                    State end = CreateState("* End");
 
                     start.AddEmptyConnection(a.Start);
                     a.End.AddEmptyConnection(end);
@@ -106,8 +107,8 @@ namespace Regular_Expression_Engine
                     Fragment a = fragments.Pop();
                     a.End.AddEmptyConnection(a.Start);
 
-                    State start = new State("+ Start");
-                    State end = new State("+ End");
+                    State start = CreateState("+ Start");
+                    State end = CreateState("+ End");
 
                     start.AddEmptyConnection(a.Start);
                     a.End.AddEmptyConnection(end);
@@ -120,8 +121,27 @@ namespace Regular_Expression_Engine
             if (fragments.Count > 1) { throw new InvalidOperationException(); }
             State startState = fragments.First().Start;
             StateMachine stateMachine = new StateMachine(startState);
+
+            // Optimize
+            foreach (State state in states)
+            {
+                state.Connections.Sort((a, b) => a.CompareTo(b));
+            }
+
             return stateMachine;
+
+            State CreateState(string name)
+            {
+                State state = new State(name);
+                states.Add(state);
+                return state;
+            }
         }
+
+        //private static void Optimize(HashSet<State> stateMachine)
+        //{
+
+        //}
 
         #endregion Constructor & Builder
 
