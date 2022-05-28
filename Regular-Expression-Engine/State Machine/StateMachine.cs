@@ -30,6 +30,16 @@ namespace Regular_Expression_Engine
                     Fragment fragment = new Fragment(start, end);
                     fragments.Push(fragment);
                 }
+                // Wildcard character
+                else if (token.Type == TokenType.WildcardCharacter)
+                {
+                    State start = new State($"Wildcard character Start ({token.Character})");
+                    State end = new State($"Wildcard character End ({token.Character})");
+                    start.AddAnyConnection(end);
+
+                    Fragment fragment = new Fragment(start, end);
+                    fragments.Push(fragment);
+                }
                 // Alternation
                 else if (token.IsOperator && token.Character == '|')
                 {
@@ -127,6 +137,12 @@ namespace Regular_Expression_Engine
                 foreach (Transition connection in state.Connections)
                 {
                     if (index < input.Length && CompareCharacters(connection.Character, input[index]))
+                    {
+                        (bool success, int endIndex) = Evaluate(connection.State, index + 1);
+                        if (success)
+                        { return (true, endIndex); }
+                    }
+                    else if (index < input.Length && connection.IsAnyCharacter)
                     {
                         (bool success, int endIndex) = Evaluate(connection.State, index + 1);
                         if (success)

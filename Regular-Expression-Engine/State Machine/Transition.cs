@@ -3,10 +3,11 @@
 namespace Regular_Expression_Engine
 {
     [DebuggerDisplay("{ToString()}"), DebuggerTypeProxy(typeof(TransitionDebugView))]
-    public struct Transition
+    internal struct Transition
     {
         public State State { get; set; }
         public bool IsEmpty { get; set; }
+        public bool IsAnyCharacter { get; set; }
         public char Character { get; set; }
 
         public override string ToString()

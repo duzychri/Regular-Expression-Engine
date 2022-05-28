@@ -29,6 +29,20 @@ internal class Program
                 IsCaseSensitive = false,
                 MatchingStrings = new string[] { "234234abcbcbcbce345", "abce", "ae", "abe", "ace" },
                 NonMatchingStrings = new string[] { "a", "bbbbb",  "abc", "bce" },
+            },
+            new()
+            {
+                Regex = ".+",
+                IsCaseSensitive = false,
+                MatchingStrings = new string[] { "234234abcbcbcbce345", "abce", "ae", "abe", "ace", "a", "bbbbb",  "abc", "bce" },
+                NonMatchingStrings = new string[] {},
+            },
+            new()
+            {
+                Regex = "\\.+",
+                IsCaseSensitive = false,
+                MatchingStrings = new string[] { "......" },
+                NonMatchingStrings = new string[] { "234234abcbcbcbce345", "abce", "ae", "abe", "ace", "a", "bbbbb",  "abc", "bce" },
             }
         };
 

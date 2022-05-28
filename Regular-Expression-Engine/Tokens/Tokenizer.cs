@@ -68,7 +68,7 @@ namespace Regular_Expression_Engine
             foreach (Token token in tokens)
             {
                 // If token is an operand, push it onto output.
-                if (token.Type == TokenType.Character)
+                if (token.Type == TokenType.Character || token.Type == TokenType.WildcardCharacter)
                 {
                     yield return token;
                 }

@@ -3,11 +3,12 @@
     internal enum TokenType : byte
     {
         Character,
+        WildcardCharacter,
         LeftParenthesis,
         RightParenthesis,
         UnaryPrefixOperator,
         UnaryPostfixOperator,
         LeftAssociativeOperator,
-        RightAssociativeOperator,
+        RightAssociativeOperator,        
     }
 }

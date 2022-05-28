@@ -48,6 +48,8 @@ namespace Regular_Expression_Engine
                     return TokenType.LeftParenthesis;
                 case ')':
                     return TokenType.RightParenthesis;
+                case '.':
+                    return TokenType.WildcardCharacter;
                 default:
                     return TokenType.Character;
             }

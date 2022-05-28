@@ -14,6 +14,12 @@ The engine tokenizes an input regular expression string, then converts it into p
 | Parenthesis | ( and ) | Allows the grouping of values inside the parenthesis. |
 | Escape | \ | scapes the operator before the / (including itself). |
 
+## Supported special characters
+
+| Type | Character | Description |
+| ----------- | ----------- | ----------- |
+| Wildcard | . | Matches any character. |
+
 ## How to use
 
 ```csharp

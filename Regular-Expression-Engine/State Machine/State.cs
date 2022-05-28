@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Regular_Expression_Engine
 {
     [DebuggerDisplay("Name = {Name}, Count = {Connections.Count}"), DebuggerTypeProxy(typeof(StateDebugView))]
-    public class State
+    internal class State
     {
         public string Name { get; }
         public List<Transition> Connections { get; } = new List<Transition>();
@@ -22,15 +22,21 @@ namespace Regular_Expression_Engine
             return Name;
         }
 
-        public void AddEmptyConnection(State state)
+        public void AddConnection(State state, char character)
         {
-            Transition transition = new Transition { IsEmpty = true, Character = '\0', State = state };
+            Transition transition = new Transition { IsEmpty = false, IsAnyCharacter = false, Character = character, State = state };
             Connections.Add(transition);
         }
 
-        public void AddConnection(State state, char character)
+        public void AddAnyConnection(State state)
         {
-            Transition transition = new Transition { IsEmpty = false, Character = character, State = state };
+            Transition transition = new Transition { IsEmpty = false, IsAnyCharacter = true, Character = '\0', State = state };
+            Connections.Add(transition);
+        }
+
+        public void AddEmptyConnection(State state)
+        {
+            Transition transition = new Transition { IsEmpty = true, IsAnyCharacter = false, Character = '\0', State = state };
             Connections.Add(transition);
         }
 
